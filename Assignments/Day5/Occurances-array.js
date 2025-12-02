@@ -18,8 +18,10 @@ function findOccurances(numberArray, targetNumber) {
         console.log(`The number ${targetNumber} is found ${count} times`);
     }
 
+    return count;
+
 }
 
 let numArray = [2,4,6,8,2,4,2,10,2];
 
-findOccurances(numArray,2);
+console.log(findOccurances(numArray,2));
