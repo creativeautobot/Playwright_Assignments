@@ -1,6 +1,6 @@
 import {test} from '@playwright/test'
 
-test(`Create a Lead`,async({page})=>{
+test.skip(`Create a Lead`,async({page})=>{
     
     await page.goto('http://leaftaps.com/opentaps/control/main');
     await page.locator('//input[@id="username"]').fill('Demosalesmanager');
@@ -8,7 +8,7 @@ test(`Create a Lead`,async({page})=>{
     await page.locator('//input[@value="Login"]').click();
     await page.locator('//a[contains(@href,"/crmsfa/control")]/img').click();
 
-    await page.locator('//a[text()="Create Lead"]').nth(0).click();
+    await page.locator('//a[text()="Create Lead"]').click();
     await page.locator('//input[@id="createLeadForm_companyName"]').fill('TestLeaf_Xpath');
     await page.locator('//input[@id="createLeadForm_firstName"]').fill('Karthik_Xpath');
     await page.locator('//input[@id="createLeadForm_lastName"]').fill('Testing_Xpath');
@@ -40,31 +40,31 @@ test(`Create a Lead`,async({page})=>{
 test.skip(`Edit a Lead`,async({page})=>{
 
     await page.goto('http://leaftaps.com/opentaps/control/main');
-    await page.locator('#username').fill('Demosalesmanager');
-    await page.locator('#password').fill('crmsfa');
-    await page.locator('.decorativeSubmit').click();
-    await page.locator('.crmsfa>a>img').click();
+    await page.locator('//input[@id="username"]').fill('Demosalesmanager');
+    await page.locator('//input[@id="password"]').fill('crmsfa');
+    await page.locator('//input[@value="Login"]').click();
+    await page.locator('//a[contains(@href,"/crmsfa/control")]/img').click();
 
-    await page.locator('.sectionTabBar>li').nth(1).click();
-    await page.locator('ul.shortcuts>li').nth(2).click();
-    await page.locator('input[name="id"]').fill('11833');
-    await page.locator('#ext-gen334').click();
+    await page.locator('//ul[@class="sectionTabBar"]/li[2]').click();
+    await page.locator('//a[contains(@href,"/findLeads")]').click();
+    await page.locator('//input[@name="id"]').fill('11833');
+    await page.locator('//button[contains(text(),"Find Leads")]').click();
     await page.waitForTimeout(5000);
-    await page.locator('.x-grid3-col-partyId>a').click();
-    await page.locator('.frameSectionExtra>a').nth(2).click();
-    await page.locator('#updateLeadForm_companyName').fill('TestLeaf_Updated');
-    await page.locator('#updateLeadForm_departmentName').fill('Automation QA');
-    await page.locator('#updateLeadForm_annualRevenue').fill('2000000');
-    await page.locator('#updateLeadForm_description').fill('This is a Test description');
-    await page.locator('input[value="Update"]').click();
+    await page.locator('//div[contains(@class,"x-grid3-col-partyId")]/a').click();
+    await page.locator('//a[text()="Edit"]').click();
+    await page.locator('//input[@id="updateLeadForm_companyName"]').fill('TestLeaf_Updated'); 
+    await page.locator('//input[@id="updateLeadForm_departmentName"]').fill('Automation QA'); 
+    await page.locator('//input[@id="updateLeadForm_annualRevenue"]').fill('2000000'); 
+    await page.locator('//input[@id="updateLeadForm_description"]').fill('This is a Test description'); 
+    await page.locator('//input[@value="Update"]').click();
 
     console.log(await page.title());
 
-    let exp_company_name = (await page.locator('#viewLead_companyName_sp').textContent())?.replace(")","").split('(')[0];
-    let exp_dept_name = await page.locator('#viewLead_departmentName_sp').textContent();
-    let exp_annualIncome = (await page.locator('#viewLead_annualRevenue_sp').textContent())?.replace('$',"");
+    let exp_company_name = (await page.locator('//span[@id="viewLead_companyName_sp"]').textContent())?.replace(")","").split('(')[0];
+    let exp_dept_name = await page.locator('//span[@id="viewLead_departmentName_sp"]').textContent(); 
+    let exp_annualIncome = (await page.locator('//span[@id="viewLead_annualRevenue_sp"]').textContent())?.replace('$',""); 
     let income = exp_annualIncome?.replaceAll(',',"").split('.')[0].trim();
-    let exp_desc = (await page.locator('#viewLead_description_sp').textContent())?.trim();
+    let exp_desc = (await page.locator('//span[@id="viewLead_description_sp"]').textContent())?.trim(); 
 
     if(exp_company_name === 'TestLeaf_Updated' && exp_dept_name === 'Automation QA' && income === '2000000' && exp_desc === 'This is a Test description'){
     
@@ -84,30 +84,22 @@ else{
 
 test.skip(`Create an Account`,async({page})=>{
 
-    await page.goto('https://login.salesforce.com/');
-    await page.locator('#username').fill('dilipkumar.rajendran@testleaf.com');
-    await page.locator('#password').fill('TestLeaf@2025');
-    await page.locator('#Login').click();
-
+    await page.locator('//input[@id="username"]').fill('Demosalesmanager');
+    await page.locator('//input[@id="password"]').fill('crmsfa');
+    await page.locator('//input[@value="Login"]').click();
+    
     console.log(await page.title());
     console.log(page.url());
 
     await page.locator('.slds-icon-waffle').click();
-    await page.locator('button[aria-label="View All Applications"]').click();
+    await page.locator('//button[@aria-label="View All Applications"]').click();
     await sleep(5000);
-    await page.locator('input[placeholder="Search apps or items..."]').pressSequentially('Service');    
+    await page.locator('//input[@placeholder="Search apps or items..."]').pressSequentially('Service');    
     await page.locator('a.slds-text-heading_small p.slds-truncate').nth(0).click();
-    await page.locator('a[title="Accounts"]').click();
-    await page.locator('a[title="New"]').click();
+    await page.locator('//a[@title="Accounts"]').click();
+    await page.locator('//a[@title="New"]').click();
     await page.locator('#input-764').fill('TestLeaf_08122025');
-    await page.locator('button[name="SaveEdit"]').click();
-
-
-
-
-
-
-
+    await page.locator('//button[@name="SaveEdit"]').click();
 
 
 });
@@ -115,3 +107,30 @@ test.skip(`Create an Account`,async({page})=>{
 function sleep(sleeptime: number | undefined) {
   return new Promise(resolve => setTimeout(resolve, sleeptime));
 }
+
+test(`Drodowns handling`,async({page})=>{
+
+    await page.goto('http://leaftaps.com/opentaps/control/main');
+    await page.locator('//input[@id="username"]').fill('Demosalesmanager');
+    await page.locator('//input[@id="password"]').fill('crmsfa');
+    await page.locator('//input[@value="Login"]').click();
+    await page.locator('//a[contains(@href,"/crmsfa/control")]/img').click();
+
+    await page.locator('//a[text()="Create Lead"]').click();
+    await page.selectOption('#createLeadForm_dataSourceId',{label:'Conference'});
+    await page.selectOption('#createLeadForm_currencyUomId',{value:'INR'});
+    await page.selectOption('#createLeadForm_marketingCampaignId',{value:'CATRQ_CARNDRIVER'});
+
+    let marketing_dd = page.locator('#createLeadForm_marketingCampaignId>option');
+    let campaign_count = await marketing_dd.count();
+
+    for(let i=0;i<campaign_count;i++){
+
+        console.log(await marketing_dd.nth(i).innerText());
+
+
+    }
+
+    await page.waitForTimeout(1000);
+
+})
